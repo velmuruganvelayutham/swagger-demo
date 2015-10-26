@@ -17,8 +17,8 @@ public class Portal extends Application {
 	@Override
 	public Set<Class<?>> getClasses() {
 		resources.add(HelloWebapp.class);
-		resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
-		resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+		/*resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+		resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);*/
 		return resources;
 	}
 
