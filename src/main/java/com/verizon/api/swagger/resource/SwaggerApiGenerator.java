@@ -10,6 +10,7 @@ import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
 import io.swagger.models.Swagger;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
@@ -27,10 +28,12 @@ public class SwaggerApiGenerator {
     static Scanner scanner = new DefaultJaxrsScanner();
 
     public static void main(String[] args) throws IOException {
-        System.out.println("hello world");
+        run();
+    }
+
+    private static void run() throws FileNotFoundException, IOException {
         Portal portal = new Portal();
         Swagger swaggerJson = process(portal);
-        System.out.println("processed : -> " + swaggerJson);
         SwaggerSerializers ss= new SwaggerSerializers();
         FileOutputStream fos= new FileOutputStream("swagger-json-file.txt");
         ss.writeTo(swaggerJson, null, null, null, MediaType.APPLICATION_JSON_TYPE, null, fos);

@@ -2,9 +2,24 @@ apply plugin: 'java'
 apply plugin: 'jetty'
 apply plugin: 'eclipse'
 
+
+apply plugin: GreetingPlugin
+apply plugin: 'application'
+mainClassName = "com.verizon.api.swagger.resource.SwaggerApiGenerator"
+
+class GreetingPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.task('hello') << {
+            println "Hello from the GreetingPlugin"
+        }
+    }
+} 
+
 repositories {
     mavenCentral()
 }
+
+
 dependencies {
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
