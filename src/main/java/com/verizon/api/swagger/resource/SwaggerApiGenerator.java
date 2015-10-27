@@ -13,6 +13,7 @@ import io.swagger.models.Swagger;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SwaggerApiGenerator {
+    
     static Logger LOGGER = LoggerFactory.getLogger(ApiListingResource.class);
     private static Swagger swagger = null;
     static Scanner scanner = new DefaultJaxrsScanner();
@@ -35,10 +37,19 @@ public class SwaggerApiGenerator {
         Portal portal = new Portal();
         Swagger swaggerJson = process(portal);
         SwaggerSerializers ss= new SwaggerSerializers();
-        FileOutputStream fos= new FileOutputStream("swagger-json-file.txt");
+        FileOutputStream fos= new FileOutputStream("swagger-ui/lib/swagger-json.js");
         ss.writeTo(swaggerJson, null, null, null, MediaType.APPLICATION_JSON_TYPE, null, fos);
         fos.flush();
         fos.close();
+               
+        RandomAccessFile file = new RandomAccessFile("swagger-ui/lib/swagger-json.js", "rws");
+        byte[] text = new byte[(int) file.length()];
+        file.readFully(text);
+        file.seek(0);
+        file.writeBytes("var json = ");
+        file.write(text);
+        file.close();
+        System.out.println("swagger-json.js generation Done");
     }
 
     private static Swagger process(Application app) {

@@ -2,22 +2,22 @@ apply plugin: 'java'
 apply plugin: 'jetty'
 apply plugin: 'eclipse'
 
-
-apply plugin: GreetingPlugin
 apply plugin: 'application'
 mainClassName = "com.verizon.api.swagger.resource.SwaggerApiGenerator"
 
-class GreetingPlugin implements Plugin<Project> {
-    void apply(Project project) {
-        project.task('hello') << {
-            println "Hello from the GreetingPlugin"
-        }
-    }
-} 
 
-repositories {
-    mavenCentral()
+task swaggerApi(dependsOn: run) {
+    doLast{
+       println "Swagger API Docs are available in  $buildDir/api-docs/index.html"
+        copySwaggerUIFiles.execute()
+    }
 }
+
+task copySwaggerUIFiles(type: Copy) {
+    from 'swagger-ui'
+    into 'build/api-docs'
+}
+repositories { mavenCentral() }
 
 
 dependencies {
@@ -25,14 +25,12 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'com.sun.jersey:jersey-client:1.17.1'
     compile 'com.sun.jersey:jersey-core:1.17.1'
-    compile 'com.sun.jersey:jersey-server:1.17.1'            
+    compile 'com.sun.jersey:jersey-server:1.17.1'
     compile 'com.sun.jersey:jersey-servlet:1.17.1'
     compile 'io.swagger:swagger-jaxrs:1.5.3'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
-test {
-    exclude '**/*IntegrationTest*'
-}
+test { exclude '**/*IntegrationTest*' }
 
 task integrationTest(type: Test) {
     include '**/*IntegrationTest*'

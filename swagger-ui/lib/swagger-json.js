@@ -1,0 +1,1 @@
+var json = {"swagger":"2.0","tags":[{"name":"hello"}],"paths":{"/hello":{"get":{"tags":["hello"],"summary":"Finds Pets by status","description":"Multiple status values can be provided with comma seperated strings","operationId":"hello","parameters":[],"responses":{"200":{"description":"successful operation","schema":{"type":"string"}}}}}}}
